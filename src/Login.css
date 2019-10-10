@@ -1,0 +1,48 @@
+html, body, #root, .App {
+    height: 100%;
+  }
+  .background{
+    background-image: url("http://getwallpapers.com/wallpaper/full/c/b/e/34930.jpg");
+    /* Full height */
+    height: 100%; 
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .fContainer{
+    /*width: 50vw;*/
+    height: auto;
+    background-color: #0000003d;
+    margin-left: 3%;
+    position: relative;
+    top: 13%;
+    text-align: center;
+    border-radius: .75vw
+  }
+  .nameStyle{
+    padding: 2vw 0vw 0vw 0vw;
+    font-family: 'Saira Stencil One', cursive;
+    color:rgb(224, 199, 56);
+    font-size: 40px;
+  }
+  .loginInput {
+    margin-top: 5%;
+    color:grey;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+    width: 57%;
+    margin-left: 21%;
+  }
+  .btn-login {
+    color: #fff;
+    background-color: #141514;
+    border-color: #0e0e0e;
+    margin-bottom: 1vw;
+    margin-top: 2vw;
+    width: 7vw;
+    padding: .5vw;
+    border-radius: .5vw;
+  }
