@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './Login.css';
 import Home from './Components/Home'
 import Login from './Components/Login';
+import SignUp from './Components/SignUp';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {
   BrowserRouter as Router,
@@ -22,6 +23,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
      <Router>
      <Switch>
+          <Route path="/signup" component={SignUp} exact/>
           <Route path="/login" exact component={Login} exact/>
           <Route path="/home" component={Home} exact />
           <Route path="/" component={Login} />

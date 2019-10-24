@@ -12,7 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import '../Login.css'
+
+
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
@@ -37,9 +38,8 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function Login() {
 
-
+export default function SignUp() {
   const classes = useStyles();
 
   return (
@@ -48,10 +48,32 @@ export default function Login() {
       <div className={classes.paper}>
 
         <Typography component="h1" variant="h5">
-          iFinanzas
+          Crear Cuenta
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
+          <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="nombre"
+                label="Nombre"
+                name="nombre"
+                autoComplete="Nombre"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="apellido"
+                label="Apellido"
+                name="apellido"
+                autoComplete="Apeliido"
+              />
+            </Grid>
           <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -75,19 +97,39 @@ export default function Login() {
                 autoComplete="current-password"
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="password"
+                label="Confirmar Contraseña"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}>
-            Ingresar
+            className={classes.submit}
+          >
+            Crear
           </Button>
+          <Grid container justify="flex-end">
+            <Grid item>
+              <Link href="#" variant="body2">
+                Ya tienes cuenta? Ingresa
+              </Link>
+            </Grid>
+          </Grid>
         </form>
       </div>
       <Box mt={5}>
       </Box>
     </Container>
-    );
+  );
 }
