@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,9 +42,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SignUp() {
+
   const classes = useStyles();
+//Falta ver si se quiere el nombre completo o solo uno solo
+  const [value, setValues] = React.useState("");
+  const [email, setEmails] = React.useState("");
+  const [password, setPasswords] = React.useState("");
+
+  //const onChange = event => setValues(event.target.value);
+   const submitValue = () => {
+    axios
+      .post('http://ifinanzas-api.herokuapp.com/users',{
+      name: value,
+      email: email,
+      password: password
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   return (
+
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -50,9 +74,9 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Crear Cuenta
         </Typography>
-        <form className={classes.form} noValidate>
+        <form  className={classes.form} noValidate>
           <Grid container spacing={2}>
-          <Grid item xs={6}>
+            <Grid item xs={6}>
               <TextField
                 variant="outlined"
                 required
@@ -61,6 +85,7 @@ export default function SignUp() {
                 label="Nombre"
                 name="nombre"
                 autoComplete="Nombre"
+                onChange={event => setValues(event.target.value)}
               />
             </Grid>
             <Grid item xs={6}>
@@ -74,7 +99,7 @@ export default function SignUp() {
                 autoComplete="Apeliido"
               />
             </Grid>
-          <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -83,6 +108,7 @@ export default function SignUp() {
                 label="Email"
                 name="email"
                 autoComplete="email"
+                onChange={event => setEmails(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -95,6 +121,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={event => setPasswords(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,7 +132,7 @@ export default function SignUp() {
                 name="password"
                 label="Confirmar Contraseña"
                 type="password"
-                id="password"
+                id="password2"
                 autoComplete="current-password"
               />
             </Grid>
@@ -116,6 +143,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitValue}
           >
             Crear
           </Button>

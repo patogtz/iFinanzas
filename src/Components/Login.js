@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+
 //import '../Login.css'
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -42,6 +44,23 @@ export default function Login() {
 
   const classes = useStyles();
 
+  const [emailL, setEmailsL] = React.useState("");
+  const [passwordL, setPasswordsL] = React.useState("");
+
+  const submitValue = () => {
+    axios
+      .post('http://ifinanzas-api.herokuapp.com/users/login', {
+        email: emailL,
+        password: passwordL
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -52,7 +71,7 @@ export default function Login() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-          <Grid item xs={12}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -61,6 +80,7 @@ export default function Login() {
                 label="Email"
                 name="email"
                 autoComplete="email"
+                onChange={event => setEmailsL(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -71,8 +91,8 @@ export default function Login() {
                 id="password"
                 label="Contraseña"
                 type="password"
-                id="password"
                 autoComplete="current-password"
+                onChange={event => setPasswordsL(event.target.value)}
               />
             </Grid>
           </Grid>
@@ -81,7 +101,9 @@ export default function Login() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}>
+            className={classes.submit}
+            onClick={submitValue}
+          >
             Ingresar
           </Button>
         </form>
@@ -89,5 +111,5 @@ export default function Login() {
       <Box mt={5}>
       </Box>
     </Container>
-    );
+  );
 }
