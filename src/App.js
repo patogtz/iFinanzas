@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './Login.css';
 import Home from './Components/Home'
 import Login from './Components/Login';
@@ -15,24 +14,24 @@ import {
 
 const theme = createMuiTheme({
   palette: {
-    primary: {main: '#126510'},
+    primary: { main: '#126510' },
   }
 });
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
-     <Router>
-     <Switch>
-          <Route path="/signup" component={SignUp} exact/>
-          <Route path="/login" exact component={Login} exact/>
+      <Router>
+        <Switch>
+          <Route path="/signup" component={SignUp} exact />
+          <Route path="/login" exact component={Login} exact />
           <Route path="/home" component={Home} exact />
           <Route path="/" component={Login} />
         </Switch>
-        </Router>
+      </Router>
 
 
     </MuiThemeProvider>
-   
+
   );
 }
 

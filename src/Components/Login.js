@@ -1,18 +1,14 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { AUTHENTICATED, ADMIN } from '../constants/sessionstorage';
 
 //import '../Login.css'
 const useStyles = makeStyles(theme => ({
@@ -46,22 +42,58 @@ export default function Login() {
 
   const [emailL, setEmailsL] = React.useState("");
   const [passwordL, setPasswordsL] = React.useState("");
+  const [isInvalid, setInValid] = React.useState(false);
 
-  const submitValue = () => {
+  //const [toHome, setToHome] =React.useState(false);
+  const submitValue = (e) => {
+    /*axios.
+    post('http://ifinanzas-api.herokuapp.com/users/login',{
+      email: emailL,
+      password: passwordL
+    })
+    .then(response =>{
+      console.log(response);
+    })
+    .catch(error =>{
+      console.log(error);
+    });
+    
+    console.log(e);
+    */
+
     axios
-      .post('http://ifinanzas-api.herokuapp.com/users/login', {
+      .post('https://ifinanzas-api.herokuapp.com/users/login', {
         email: emailL,
         password: passwordL
       })
       .then(res => {
-        console.log(res)
+        console.log(res);
+
+        if (res.data.error) {
+          setInValid(true);
+        } else {
+          sessionStorage.setItem(AUTHENTICATED, true);
+          setInValid(false);
+        };
+
       })
       .catch(err => {
-        console.log(err)
-      })
+        console.log(err);
+        if (axios.isCancel(err)) {
+          console.log(err.message);
+        }
+      });
   }
 
+
+  useEffect(() => {
+    if (sessionStorage.getItem(AUTHENTICATED)) {
+      window.location.href = '/home';
+    }
+  });
+
   return (
+
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -97,13 +129,12 @@ export default function Login() {
             </Grid>
           </Grid>
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={submitValue}
-          >
+            onClick={submitValue}>
             Ingresar
           </Button>
         </form>
