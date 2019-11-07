@@ -11,10 +11,13 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './ListItems';
+import { mainListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import MovesHistory from './MovesHistory/MovesHistory';
+import { Redirect } from 'react-router-dom';
+import TotalBalance from './TotalBalance/TotalBalance';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -127,9 +130,6 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             iFinanzas
           </Typography>
-          <Typography component="h5" variant="h6" color="inherit" noWrap className={classes.subtitle}>
-            Bienvenido, Patricio
-          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -147,7 +147,6 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -162,13 +161,14 @@ export default function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                {/* <Deposits /> */}
+                <TotalBalance />
               </Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <MovesHistory />
               </Paper>
             </Grid>
           </Grid>

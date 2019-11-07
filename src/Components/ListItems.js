@@ -8,8 +8,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/Person';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
-import InfoIcon from '@material-ui/icons/Info';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 
 export const mainListItems = (
   <div>
@@ -23,49 +24,25 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Mi Cuenta" />
+      <ListItemText primary="Mi Perfil" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <AccountBalanceWalletIcon />
       </ListItemIcon>
-      <ListItemText primary="Reportes" />
+      <ListItemText primary="Mis cuentas" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <LayersIcon />
+        <ReceiptIcon />
       </ListItemIcon>
-      <ListItemText primary="Balance" />
+      <ListItemText primary="Movimientos" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <InfoIcon />
+        <ExitToAppIcon />
       </ListItemIcon>
-      <ListItemText primary="Información Adicional" />
-    </ListItem>
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Cerrar Sesión" />
     </ListItem>
   </div>
 );
