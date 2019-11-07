@@ -134,10 +134,10 @@ class Login extends React.Component {
                 if (res.data.error) {
                     this.setState({ isInvalid: true })
                 } else {
+                    console.log(res);
                     sessionStorage.setItem(AUTHENTICATED, true);
-                    sessionStorage.setItem('token', res.token);
+                    sessionStorage.setItem('token', res.data.token);
                     this.setState({
-                        user: res.user,
                         isInvalid: false
                     })
                 };
