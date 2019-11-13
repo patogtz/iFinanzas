@@ -1,4 +1,3 @@
-
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
@@ -15,26 +14,20 @@ import { mainListItems, secondaryListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import Modal from '@material-ui/core/Modal';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-
-
-function rand() {
-	return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-	const top = 50 + rand();
-	const left = 50 + rand();
-
-	return {
-		top: `${top}%`,
-		left: `${left}%`,
-		transform: `translate(-${top}%, -${left}%)`,
-	};
-}
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import axios from 'axios';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -131,9 +124,16 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+const config = {
+	headers: {
+		"Authorization": sessionStorage.getItem('token'),
+		'Content-Type': 'application/json'
+	}
+}
+
 export default function Dashboard() {
 	const classes = useStyles();
-	const [modalStyle] = React.useState(getModalStyle);
+	
 	const [open, setOpen] = React.useState(true);
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -143,12 +143,48 @@ export default function Dashboard() {
 	};
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+	const [amount, setAmount] = React.useState('');
+	const [description, setDescription] = React.useState('');
+	const [date, setDate] = React.useState('');
+	const [moveType, setMoveType] = React.useState('');
+	const [account, setAccount] = React.useState('');
+	const [category, setCategory] = React.useState('');
+	const [comment, setComment] = React.useState('');	
 
-	const handleClose = () => {
-		setOpen(false);
+	const [openDialog, setOpenDialog] = React.useState(false);
+	const handleClickOpenDialog = () => {
+		setOpenDialog(true);
+		setAmount('');
+		setDescription('');
+		setDate('');
+		setMoveType('');
+		setAccount('');
+		setCategory('');
+		setComment('');
+	};
+	const handleCloseDialog = () => {
+		setOpenDialog(false);
+	};
+	const handleSubmitDialog = () => {
+		handleCloseDialog();
+		console.log(amount,description,date,moveType,account,category,comment);
+		
+		console.log(config);
+		console.log(sessionStorage.getItem('token'));
+		axios.post('http://ifinanzas-api.herokuapp.com/moves', {
+			type: moveType,
+			amount: amount,
+			date: date,
+			description: description,
+			comments: comment,
+			origin: "5dca072ac9159c0017c2a133"
+		}, config)
+			.then(res => {
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
 	};
 
 	return (
@@ -214,43 +250,114 @@ export default function Dashboard() {
 						</Grid>
 					</Grid>
 				</Container>
-				<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleOpen}>
+				<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleClickOpenDialog}>
 					<AddIcon />
 				</Fab>
 			</main>
-			<div>
-				<Modal
-					aria-labelledby="simple-modal-title"
-					aria-describedby="simple-modal-description"
-					open={open}
-					onClose={handleClose}
-				>
-					<div style={modalStyle} className={classes.modal}>
-						<Paper className={classes.paper}>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={6}>
 
-									<TextField
-										id="outlined-helperText"
-										label="Helper text"
-										defaultValue="Default Value"
-										className={classes.textField}
-										margin="normal"
-									/>
-									<TextField
-										id="outlined-helperText"
-										label="Helper text"
-										defaultValue="Default Value"
-										className={classes.textField}
-										margin="normal"
-									/>
-								</Grid>
-							</Grid>
-
-						</Paper>
-					</div>
-				</Modal>
-			</div>
+			<Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title" maxWidth={"xs"} fullWidth={true}>
+				<DialogTitle id="form-dialog-title">Agregar Movimiento</DialogTitle>
+				<DialogContent>
+					<form>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="amount"
+							label="Amount"
+							type="number"
+							InputProps={{
+								startAdornment: <InputAdornment position="start">$</InputAdornment>,
+							}}
+							fullWidth
+							onChange={event => setAmount(event.target.value)}
+						/>
+						<TextField
+							id="date"
+							label="Fecha"
+							type="date"
+							className={classes.textField}
+							InputLabelProps={{
+								shrink: true,
+							}}
+							fullWidth
+							onChange={event => setDate(event.target.value)}
+						/>
+						<TextField
+							margin="dense"
+							id="descripcion"
+							label="Descripcion"
+							type="text"
+							className={classes.textField}
+							fullWidth
+							onChange={event => setDescription(event.target.value)}
+						/>
+						<FormControl className={classes.formControl} fullWidth>
+							<InputLabel id="moveType-label">Tipo</InputLabel>
+							<Select
+								id="moveType"
+								value={moveType}
+								onChange={event => {
+									if (event.target.value === "transfer") {
+										console.log('transfer');
+									}
+									setMoveType(event.target.value)
+								}
+								}
+							>
+								<MenuItem value={"income"}>Ingreso</MenuItem>
+								<MenuItem value={"outcome"}>Egreso</MenuItem>
+								{/* <MenuItem value={"transfer"}>Transferencia</MenuItem> */}
+							</Select>
+						</FormControl>
+						<FormControl className={classes.formControl} fullWidth>
+							<InputLabel id="moveAccount-label">Cuenta</InputLabel>
+							<Select
+								id="moveAccount"
+								value={account}
+								onChange={event => setAccount(event.target.value)}
+							>
+								<MenuItem value={"a"}>Cuenta 1</MenuItem>
+								<MenuItem value={"b"}>Cuenta 2</MenuItem>
+								<MenuItem value={"c"}>Cuenta 3</MenuItem>
+							</Select>
+						</FormControl>
+						<FormControl className={classes.formControl} fullWidth>
+							<InputLabel id="category-label">Categoría</InputLabel>
+							<Select
+								id="moveCategory"
+								value={category}
+								onChange={event => setCategory(event.target.value)}
+							>
+								<MenuItem value={"food/drinks"}>Comida/bebida</MenuItem>
+								<MenuItem value={"shopping"}>Compras</MenuItem>
+								<MenuItem value={"housing"}>Hogar</MenuItem>
+								<MenuItem value={"transportation"}>Transporte</MenuItem>
+								<MenuItem value={"vehicle"}>Coche</MenuItem>
+								<MenuItem value={"entertainment"}>Entretenimiento</MenuItem>
+								<MenuItem value={"communication/pc"}>Comunicacion/PC</MenuItem>
+								<MenuItem value={"financialExpenses"}>Gasto financiero</MenuItem>
+								<MenuItem value={"investments"}>Inversion</MenuItem>
+								<MenuItem value={"income"}>Ingreso</MenuItem>
+								<MenuItem value={"others"}>Otro</MenuItem>
+							</Select>
+						</FormControl>
+						<TextField
+							id="comentarios"
+							label="Comentarios"
+							multiline
+							rows="2"
+							className={classes.textField}
+							margin="normal"
+							fullWidth
+							onChange={event => setComment(event.target.value)}
+						/>
+					</form>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseDialog} color="secondary">Cancelar</Button>
+					<Button onClick={handleSubmitDialog} color="primary">Agregar</Button>
+				</DialogActions>
+			</Dialog>
 		</div>
 	);
 }
