@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems } from './ListItems';
+
 import axios from "axios"
 import EditProfile from './EditProfile'
 //import '../Login.css'
@@ -194,7 +195,6 @@ const useStyles = makeStyles(theme => ({
           </div>
           <Divider />
           <List>{mainListItems}</List>
-
         </Drawer>
         {loading ? 
             <CircularProgress  />  
