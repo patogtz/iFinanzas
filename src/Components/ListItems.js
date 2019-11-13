@@ -11,28 +11,29 @@ import LayersIcon from '@material-ui/icons/Layers';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/home'}}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/myprofile'}}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Mi Perfil" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/accounts'}}>
       <ListItemIcon>
         <AccountBalanceWalletIcon />
       </ListItemIcon>
       <ListItemText primary="Mis cuentas" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/moves'}}>
       <ListItemIcon>
         <ReceiptIcon />
       </ListItemIcon>

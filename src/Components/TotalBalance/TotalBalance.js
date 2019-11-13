@@ -53,7 +53,7 @@ class TotalBalance extends React.Component {
                         as of today.
                     </Typography>
                     <div>
-                        <Link color="primary" href="javascript:;">
+                        <Link color="primary" onClick={() => {window.location='/accounts'}}>
                             View balances
                         </Link>
                     </div>

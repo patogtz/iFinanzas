@@ -1,8 +1,9 @@
 
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, createMuiTheme }  from '@material-ui/core/styles';
-import {CssBaseline, Drawer, AppBar, Toolbar, List } from '@material-ui/core';
+import { makeStyles, createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { CssBaseline, Drawer, AppBar, Toolbar, List } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
