@@ -8,64 +8,42 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/Person';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
-import InfoIcon from '@material-ui/icons/Info';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/home'}}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => {window.location = '/myprofile'}}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Mi Cuenta" />
+      <ListItemText primary="Mi Perfil" />
+    </ListItem>
+    <ListItem button onClick={() => {window.location = '/accounts'}}>
+      <ListItemIcon>
+        <AccountBalanceWalletIcon />
+      </ListItemIcon>
+      <ListItemText primary="Mis cuentas" />
+    </ListItem>
+    <ListItem button onClick={() => {window.location = '/moves'}}>
+      <ListItemIcon>
+        <ReceiptIcon />
+      </ListItemIcon>
+      <ListItemText primary="Movimientos" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <ExitToAppIcon />
       </ListItemIcon>
-      <ListItemText primary="Reportes" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Balance" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <InfoIcon />
-      </ListItemIcon>
-      <ListItemText primary="Información Adicional" />
-    </ListItem>
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Cerrar Sesión" />
     </ListItem>
   </div>
 );

@@ -21,7 +21,7 @@ export default function Deposits() {
       </Typography>
       <div>
         <Link color="primary" href="javascript:;">
-          View balance
+          View accounts
         </Link>
       </div>
     </React.Fragment>
