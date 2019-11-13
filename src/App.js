@@ -11,6 +11,7 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
+import AccountsContainer from './Components/Accounts/Container';
 
 
 const theme = createMuiTheme({
@@ -26,6 +27,7 @@ function App() {
           <Route path="/signup" component={SignUp} exact />
           <Route path="/login" exact component={Login} exact />
           <ProtectedRoute path="/home" component={Home} exact />
+          <ProtectedRoute path="/accounts" component={AccountsContainer} exact />
           <Route path="/" component={Login} />
         </Switch>
       </Router>

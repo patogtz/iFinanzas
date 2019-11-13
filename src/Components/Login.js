@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { AUTHENTICATED, ADMIN } from '../constants/sessionstorage';
+import { AUTHENTICATED } from '../constants/sessionstorage';
 import { Redirect } from 'react-router-dom';
 import baseUrl from '../constants/urls';
 import { withStyles } from '@material-ui/styles';
