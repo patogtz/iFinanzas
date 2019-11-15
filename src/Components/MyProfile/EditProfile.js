@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios"
 const styles = theme => ({
   root: {
     margin: 0,
@@ -69,27 +70,27 @@ export default function EditProfile( params ) {
   };
   const handleSave = () => {
     console.log(name)
-    console.log(email)
-    console.log(password)
-
-/*     params.setModalIsOpen(false)
-    setOpen(false); */
-  };
-  const submitInfo = () => {
-    /* axios
-      .post('http://ifinanzas-api.herokuapp.com/users',{
-      name: name,
-      email: email,
-      password: password
-      })
+    let config = {
+      headers: {
+          'Authorization': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+      }
+  }
+      axios
+      .patch('http://ifinanzas-api.herokuapp.com/users', {
+        name: name,
+        email: email
+      }, config)
       .then(res => {
-        console.log(res)
+        params.setModalIsOpen(false)
+        setOpen(false);
+        params.saveNewContent(name,email)
       })
       .catch(err => {
         console.log(err)
-      }) */
-  }
-
+      }) 
+  };
+ 
   return (
     <div>
       <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
@@ -97,23 +98,23 @@ export default function EditProfile( params ) {
           Editar Perfil
         </DialogTitle>
         <DialogContent dividers>
+          <TextField
+                id="nombre"
+                className={styles.textField}
+                label="Nombre"
+                margin="normal"
+                fullWidth
+                value={name}
+                onChange={event => setName(event.target.value)}
+            />
             <TextField
                 id="email"
                 className={styles.textField}
                 label="Email"
                 margin="normal"
                 fullWidth
-                defaultValue={email}
+                value={email}
                 onChange={event => setEmail(event.target.value)}
-            />
-            <TextField
-                id="nombre"
-                className={styles.textField}
-                label="Nombre"
-                margin="normal"
-                fullWidth
-                defaultValue={name}
-                onChange={event => setName(event.target.value)}
             />
              {/* <TextField
                 id="password"

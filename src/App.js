@@ -3,7 +3,7 @@ import './Login.css';
 import Home from './Components/Home'
 import Login from './Components/Login';
 import SignUp from './Components/SignUp';
-import MyProfile from './Components/MyProfile';
+import MyProfile from './Components/MyProfile/MyProfile';
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {
