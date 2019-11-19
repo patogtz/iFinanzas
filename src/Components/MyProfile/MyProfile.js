@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {CssBaseline, Drawer, AppBar, Toolbar, List, TextField, Button, Grid, CircularProgress, Card } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {CssBaseline, Drawer, AppBar, Toolbar, List, TextField, Button, Grid, CircularProgress, Card, Typography, IconButton, Divider } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
-import Divider from '@material-ui/core/Divider';
 import Container from '@material-ui/core/Container';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems } from './ListItems';
+import { mainListItems } from '../ListItems';
 
 import axios from "axios"
 import EditProfile from './EditProfile'
@@ -122,16 +119,17 @@ const useStyles = makeStyles(theme => ({
     const [userEmail, setUserEmail] = React.useState("");
     const [userName, setUserName] = React.useState("");
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [id, setId]  = React.useState(false);
     const [loading, setLoading] = React.useState(true)
     useEffect(() => {
         setLoading(true)
         getUserInfo();
+
       }, []);
     const getUserInfo = () => {
-        console.log(sessionStorage.getItem('token'))
         let config = {
             headers: {
-                'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZGIyMjc2OTZmOTJjODEwZGEwODcxMDMiLCJpYXQiOjE1NzMxNjkyMjYsImV4cCI6MTU3Mzc3NDAyNn0.81IbEc1GS0URIJ0f2FTkVOeeyTj12tPTWOslL0qzK7Q",
+                'Authorization': sessionStorage.getItem('token'),
                 'Content-Type': 'application/json'
             }
         }
@@ -140,6 +138,7 @@ const useStyles = makeStyles(theme => ({
                 console.log(res.data)
                 setUserEmail(res.data.email)
                 setUserName(res.data.name)
+                setId(res.data._id)
                 setLoading(false)
 
             }).catch(err => {
@@ -152,13 +151,18 @@ const useStyles = makeStyles(theme => ({
     const handleDrawerClose = () => {
       setOpen(false);
     };
+    //Abre modal cuando das click en edit
     const handleEditClick = () => {
-        console.log(userEmail)
-        setModalIsOpen(true)
-        console.log(modalIsOpen)
+        setModalIsOpen(!modalIsOpen)
     }
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-    
+    const handleDeleteClick = () => {
+      console.log("delete")
+    }
+
+    const saveNewContent =(uName, uEmail) => {
+      setUserName(uName)
+      setUserEmail(uEmail);
+    }    
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -175,9 +179,6 @@ const useStyles = makeStyles(theme => ({
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               iFinanzas
-            </Typography>
-            <Typography component="h5" variant="h6" color="inherit" noWrap className={classes.subtitle}>
-              Bienvenido, Patricio
             </Typography>
           </Toolbar>
         </AppBar>
@@ -203,7 +204,7 @@ const useStyles = makeStyles(theme => ({
 
             <main className={classes.content}>
              <Card className={classes.card}>
-                    <EditProfile userEmail={userEmail} userName={userName} isOpen={modalIsOpen} setModalIsOpen={setModalIsOpen}/>
+                    <EditProfile id={id} userEmail={userEmail} userName={userName} isOpen={modalIsOpen} setModalIsOpen={handleEditClick} saveNewContent = {saveNewContent}/>
                     <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
@@ -218,13 +219,12 @@ const useStyles = makeStyles(theme => ({
                           <Divider />
                           <Grid item xs={12} md={12} lg={12}>
                               <TextField
-                              id="standard-read-only-input"
+                              id="name"
                               label="Nombre"
-                              defaultValue={userName}
+                              value={userName}
                               className={classes.textField}
                               fullWidth
                               margin="normal"
-                              onChange={e => setUserEmail(e.target.value)}
                               InputProps={{
                                   readOnly: true,
                                 }}
@@ -232,20 +232,19 @@ const useStyles = makeStyles(theme => ({
                           </Grid>
                       <Grid item xs={12} md={12} lg={12}>
                           <TextField
-                          id="standard-read-only-input"
+                          id="email"
                           label="Correo"
-                          defaultValue={userEmail}
+                          value={userEmail}
                           className={classes.textField}
                           fullWidth
                           margin="normal"
-                          onChange={e => setUserEmail(e.target.value)}
                           InputProps={{
                               readOnly: true,
                             }}
                           />
                       </Grid>
                       <Grid item xs={12} md={12} lg={12} className={classes.button}>
-                          <Button variant="contained" color="secondary" style={{ marginRight: "20px" }}>
+                          <Button variant="contained" color="secondary" style={{ marginRight: "20px" }} onClick={handleDeleteClick}>
                               Eliminar Cuentar
                           </Button>
                           <Button variant="contained" color="primary" className={classes.button} onClick={handleEditClick}>
