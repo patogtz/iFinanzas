@@ -1,17 +1,8 @@
-
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, createMuiTheme, withStyles } from '@material-ui/core/styles';
-import { CssBaseline, Drawer, AppBar, Toolbar, List } from '@material-ui/core';
+import { makeStyles, createMuiTheme, withStyles, Typography, Divider, IconButton, Container, Grid, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, InputLabel, InputAdornment, FormControl, Select, MenuItem, Button, Fab, CssBaseline, Drawer, AppBar, Toolbar, List } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { ChevronLeft, Add, Menu} from '@material-ui/icons';
 import { mainListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
@@ -19,6 +10,7 @@ import Orders from './Orders';
 import AccountsList from './AccountsList/AccountsList';
 import { Redirect } from 'react-router-dom';
 import TotalBalance from './TotalBalance/TotalBalance';
+import axios from 'axios';
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -101,11 +93,33 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 240,
   },
+	fab: {
+		position: 'absolute',
+		bottom: theme.spacing(2),
+		right: theme.spacing(2),
+	}
 }));
 
+const config = {
+	headers: {
+		"Authorization": "Bearer " + sessionStorage.getItem('token'),
+		'Content-Type': 'application/json'
+	}
+}
+
 export default function Dashboard() {
+	const [accounts, setAccounts] = React.useState([]);
+	React.useEffect(() => {
+		axios.get('http://ifinanzas-api.herokuapp.com/accounts', config)
+			.then(res => {
+				setAccounts(res.data);
+			}).catch(err => {
+				console.log(err);
+			});
+	}, []);
+
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -113,6 +127,77 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+	const [amount, setAmount] = React.useState(0);
+	const [description, setDescription] = React.useState('');
+	const [date, setDate] = React.useState('');
+	const [moveType, setMoveType] = React.useState('');
+	const [accountTransfer, setAccountTransfer] = React.useState('');
+	const [account, setAccount] = React.useState('');
+	const [category, setCategory] = React.useState('');
+	const [comment, setComment] = React.useState('');
+
+	const [openDestination, setDestination] = React.useState(false);
+	const [openDialog, setOpenDialog] = React.useState(false);
+	const [submitState, setSubmitState] = React.useState(true);
+	React.useEffect(() => {
+		if (amount > 0 && moveType.length > 0 && moveType !== "transfer" && category.length > 0 && date.length > 0 && account.length > 0) {
+			setSubmitState(false);
+		} else {
+			if (moveType === "transfer" && accountTransfer.length > 0) {
+				setSubmitState(false)
+			} else {
+				setSubmitState(true);
+			}
+		}
+	}, [amount, moveType.length, category.length, date.length, account.length, moveType, accountTransfer.length]);
+	const handleClickOpenDialog = () => {
+		setOpenDialog(true);
+		setAmount(0);
+		setDescription('');
+		setDate('');
+		setMoveType('');
+		setAccount('');
+		setAccountTransfer('');
+		setCategory('');
+		setComment('');
+		setDestination(false);
+		setSubmitState(true);
+	};
+	const handleCloseDialog = () => {
+		setOpenDialog(false);
+		setSubmitState(true);
+	};
+	const handleSubmitDialog = () => {
+		handleCloseDialog();
+		console.log({
+			type: moveType,
+			amount: Number(amount),
+			category: category,
+			date: date,
+			description: description,
+			comments: comment,
+			origin: account,
+			destination: accountTransfer
+		});
+
+		axios.post('http://ifinanzas-api.herokuapp.com/moves', {
+			type: moveType,
+			amount: Number(amount),
+			category: category,
+			date: date,
+			description: description,
+			comments: comment,
+			origin: account,
+			destination: accountTransfer
+		}, config)
+			.then(res => {
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+	};
 
   return (
     <div className={classes.root}>
@@ -126,7 +211,7 @@ export default function Dashboard() {
             onClick={handleDrawerOpen}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             iFinanzas
@@ -142,7 +227,7 @@ export default function Dashboard() {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeft />
           </IconButton>
         </div>
         <Divider />
@@ -173,7 +258,135 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Container>
+		<Fab color="primary" aria-label="add" className={classes.fab} onClick={handleClickOpenDialog}>
+			<Add />
+		</Fab>
       </main>
+
+		<Dialog open={openDialog} onClose={handleCloseDialog} aria-labelledby="form-dialog-title" maxWidth={"xs"} fullWidth={true}>
+			<DialogTitle id="form-dialog-title">Agregar Movimiento</DialogTitle>
+			<DialogContent>
+				<form>
+					<FormControl className={classes.formControl} fullWidth>
+						<InputLabel id="moveAccount-label">Cuenta(*)</InputLabel>
+						<Select
+							id="moveAccount"
+							value={account}
+							onChange={event => setAccount(event.target.value)}
+						>
+							{accounts.map(option => (
+								<MenuItem key={option.id} value={option.id}>
+									{option.name}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+					<TextField
+						autoFocus
+						margin="dense"
+						id="amount"
+						label="Cantidad(*)"
+						type="number"
+						InputProps={{
+							startAdornment: <InputAdornment position="start">$</InputAdornment>,
+						}}
+						fullWidth
+						onChange={event => setAmount(event.target.value)}
+					/>
+					<TextField
+						id="date"
+						label="Fecha(*)"
+						type="date"
+						className={classes.textField}
+						InputLabelProps={{
+							shrink: true,
+						}}
+						fullWidth
+						onChange={event => setDate(event.target.value)}
+					/>
+					<TextField
+						margin="dense"
+						id="descripcion"
+						label="Descripcion"
+						type="text"
+						className={classes.textField}
+						fullWidth
+						onChange={event => setDescription(event.target.value)}
+					/>
+					<FormControl className={classes.formControl} fullWidth>
+						<InputLabel id="moveType-label">Tipo(*)</InputLabel>
+						<Select
+							id="moveType"
+							value={moveType}
+							onChange={event => {
+								if (event.target.value === "transfer") {
+									setDestination(true);
+								} else {
+									setDestination(false);
+									setAccountTransfer('');
+								}
+								setMoveType(event.target.value)
+							}
+							}
+						>
+							<MenuItem value={"income"}>Ingreso</MenuItem>
+							<MenuItem value={"expense"}>Egreso</MenuItem>
+							<MenuItem value={"transfer"}>Transferencia</MenuItem>
+						</Select>
+					</FormControl>
+					{openDestination &&
+					<FormControl className={classes.formControl} fullWidth>
+						<InputLabel id="moveAccountTransfer-label">Cuenta Destino(*)</InputLabel>
+						<Select
+							id="moveAccountTransfer"
+							value={accountTransfer}
+							onChange={event => setAccountTransfer(event.target.value)}
+						>
+							{accounts.map(option => (
+								<MenuItem key={option.id} value={option.id}>
+									{option.name}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+					}
+					<FormControl className={classes.formControl} fullWidth>
+						<InputLabel id="category-label">Categoría(*)</InputLabel>
+						<Select
+							id="moveCategory"
+							value={category}
+							onChange={event => setCategory(event.target.value)}
+						>
+							<MenuItem value={"food/drinks"}>Comida/bebida</MenuItem>
+							<MenuItem value={"shopping"}>Compras</MenuItem>
+							<MenuItem value={"housing"}>Hogar</MenuItem>
+							<MenuItem value={"transportation"}>Transporte</MenuItem>
+							<MenuItem value={"vehicle"}>Coche</MenuItem>
+							<MenuItem value={"entertainment"}>Entretenimiento</MenuItem>
+							<MenuItem value={"communication/pc"}>Comunicacion/PC</MenuItem>
+							<MenuItem value={"financialExpenses"}>Gasto financiero</MenuItem>
+							<MenuItem value={"investments"}>Inversion</MenuItem>
+							<MenuItem value={"income"}>Ingreso</MenuItem>
+							<MenuItem value={"others"}>Otro</MenuItem>
+						</Select>
+					</FormControl>
+					<TextField
+						id="comentarios"
+						label="Comentarios"
+						multiline
+						rows="2"
+						className={classes.textField}
+						margin="normal"
+						fullWidth
+						onChange={event => setComment(event.target.value)}
+					/>
+				</form>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleCloseDialog} color="secondary">Cancelar</Button>
+				  <Button onClick={handleSubmitDialog} color="primary" disabled={submitState}>Agregar</Button>
+			</DialogActions>
+		</Dialog>
     </div>
   );
 }
