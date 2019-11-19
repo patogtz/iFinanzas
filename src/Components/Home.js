@@ -16,7 +16,6 @@ import { mainListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import MovesHistory from './MovesHistory/MovesHistory';
 import AccountsList from './AccountsList/AccountsList';
 import { Redirect } from 'react-router-dom';
 import TotalBalance from './TotalBalance/TotalBalance';
