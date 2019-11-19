@@ -17,6 +17,7 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import MovesHistory from './MovesHistory/MovesHistory';
+import AccountsList from './AccountsList/AccountsList';
 import { Redirect } from 'react-router-dom';
 import TotalBalance from './TotalBalance/TotalBalance';
 
@@ -159,17 +160,16 @@ export default function Dashboard() {
                 <Chart />
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+            {/* Total Balance */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                {/* <Deposits /> */}
                 <TotalBalance />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+            {/* Accounts List */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <MovesHistory />
+                <AccountsList/>
               </Paper>
             </Grid>
           </Grid>
