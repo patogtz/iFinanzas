@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
 import baseUrl from '../../constants/urls';
 
-class MovesHistory extends React.Component {
+class AccountsList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -70,4 +70,4 @@ class MovesHistory extends React.Component {
     }
 }
 
-export default MovesHistory;
+export default AccountsList;
