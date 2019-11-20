@@ -30,7 +30,7 @@ export default function Chart() {
 
   const [Moves, setMoves] = React.useState('')
   React.useEffect(() => {
-    axios.get('http://localhost:3000/moves/daily-balance', config)
+    axios.get('https://ifinanzas-api.herokuapp.com/moves/daily-balance', config)
       .then(res => {
         console.log(res.data)
         let data = res.data;

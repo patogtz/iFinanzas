@@ -1,5 +1,4 @@
-// const baseUrl = 'https://ifinanzas-api.herokuapp.com/';
-const baseUrl = 'http://localhost:3000/';
+const baseUrl = 'https://ifinanzas-api.herokuapp.com/';
 
 module.exports = {
     baseUrl: baseUrl
