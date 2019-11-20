@@ -12,34 +12,57 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import axios from 'axios';
+import baseUrl from '../constants/urls';
+import { AUTHENTICATED } from '../constants/sessionstorage';
+
+const config = {
+  headers: {
+    "Authorization": "Bearer " + sessionStorage.getItem('token'),
+    'Content-Type': 'application/json'
+  }
+}
+const logout = function () {
+
+}
 
 export const mainListItems = (
   <div>
-    <ListItem button onClick={() => {window.location = '/home'}}>
+    <ListItem button onClick={() => { window.location = '/home' }}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Home" />
     </ListItem>
-    <ListItem button onClick={() => {window.location = '/myprofile'}}>
+    <ListItem button onClick={() => { window.location = '/myprofile' }}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Mi Perfil" />
     </ListItem>
-    <ListItem button onClick={() => {window.location = '/accounts'}}>
+    <ListItem button onClick={() => { window.location = '/accounts' }}>
       <ListItemIcon>
         <AccountBalanceWalletIcon />
       </ListItemIcon>
       <ListItemText primary="Mis cuentas" />
     </ListItem>
-    <ListItem button onClick={() => {window.location = '/moves'}}>
+    <ListItem button onClick={() => { window.location = '/moves' }}>
       <ListItemIcon>
         <ReceiptIcon />
       </ListItemIcon>
       <ListItemText primary="Movimientos" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={() => {
+      axios.post(baseUrl.baseUrl + 'users/logout', {}, config)
+        .then(res => {
+          console.log(res.data);
+          sessionStorage.removeItem(AUTHENTICATED);
+          sessionStorage.removeItem('token');
+          window.location = '/login';
+        }).catch(err => {
+          console.log(err);
+        })
+    }}>
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
