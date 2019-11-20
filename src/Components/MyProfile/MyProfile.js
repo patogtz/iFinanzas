@@ -10,6 +10,7 @@ import { mainListItems } from '../ListItems';
 
 import axios from "axios"
 import EditProfile from './EditProfile'
+import DeleteProfileModal from './DeleteProfileModal'
 //import '../Login.css'
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -119,6 +120,7 @@ const useStyles = makeStyles(theme => ({
     const [userEmail, setUserEmail] = React.useState("");
     const [userName, setUserName] = React.useState("");
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [modalIsOpen2, setModalIsOpen2] = React.useState(false);
     const [id, setId]  = React.useState(false);
     const [loading, setLoading] = React.useState(true)
     useEffect(() => {
@@ -156,9 +158,9 @@ const useStyles = makeStyles(theme => ({
         setModalIsOpen(!modalIsOpen)
     }
     const handleDeleteClick = () => {
-      console.log("delete")
+      setModalIsOpen2(!modalIsOpen2)
     }
-
+  
     const saveNewContent =(uName, uEmail) => {
       setUserName(uName)
       setUserEmail(uEmail);
@@ -204,6 +206,7 @@ const useStyles = makeStyles(theme => ({
 
             <main className={classes.content}>
              <Card className={classes.card}>
+                    <DeleteProfileModal id={id} isOpen={modalIsOpen2} handleDelete={handleDeleteClick}/>
                     <EditProfile id={id} userEmail={userEmail} userName={userName} isOpen={modalIsOpen} setModalIsOpen={handleEditClick} saveNewContent = {saveNewContent}/>
                     <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>
