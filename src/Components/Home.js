@@ -170,7 +170,7 @@ export default function Dashboard() {
 	const [open2, setOpen2] = React.useState(false);
 	const [open3, setOpen3] = React.useState(false);
 	React.useEffect(() => {
-		axios.get('http://ifinanzas-api.herokuapp.com/accounts', config)
+		axios.get('https://ifinanzas-api.herokuapp.com/accounts', config)
 			.then(res => {
 				setAccounts(res.data);
 			}).catch(err => {
@@ -239,7 +239,7 @@ export default function Dashboard() {
 	const handleSubmitDialog = () => {
 		handleCloseDialog();
 
-		axios.post('http://ifinanzas-api.herokuapp.com/moves', {
+		axios.post('https://ifinanzas-api.herokuapp.com/moves', {
 			type: moveType,
 			amount: Number(amount),
 			category: category,
