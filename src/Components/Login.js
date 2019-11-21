@@ -13,6 +13,8 @@ import { AUTHENTICATED } from '../constants/sessionstorage';
 import { Redirect } from 'react-router-dom';
 import baseUrl from '../constants/urls';
 import { withStyles } from '@material-ui/styles';
+import Link from '@material-ui/core/Link';
+
 
 //import '../Login.css'
 const useStyles = makeStyles(theme => ({
@@ -92,6 +94,11 @@ class Login extends React.Component {
                                     onChange={this.handlePasswordChange}
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <Link href="/Signup" variant="body2">
+                                    No tienes cuenta? Crea una
+                                     </Link>
+                            </Grid>
                         </Grid>
                         <Button
                             type="button"
@@ -136,6 +143,7 @@ class Login extends React.Component {
                     this.setState({
                         isInvalid: false
                     })
+                    window.location.href = '/home';
                 };
 
             })
@@ -152,4 +160,4 @@ Login.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles) (Login);
+export default withStyles(useStyles)(Login);
