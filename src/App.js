@@ -31,6 +31,7 @@ function App() {
           <ProtectedRoute path="/home" component={Home} exact />
           <ProtectedRoute path="/accounts" component={AccountsContainer} exact />
           <ProtectedRoute path="/moves" component={Moves} exact />
+
           <Route path="/" component={Login} />
         </Switch>
       </Router>
