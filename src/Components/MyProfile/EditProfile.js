@@ -76,7 +76,7 @@ export default function EditProfile( params ) {
       }
   }
       axios
-      .patch('http://ifinanzas-api.herokuapp.com/users', {
+      .patch('https://ifinanzas-api.herokuapp.com/users', {
         name: name,
         email: email
       }, config)

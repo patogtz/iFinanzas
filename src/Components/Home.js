@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, createMuiTheme, withStyles, Typography, Divider, IconButton, Container, Grid, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, InputLabel, InputAdornment, FormControl, Select, MenuItem, Button, Fab, CssBaseline, Drawer, AppBar, Toolbar, List } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { ChevronLeft, Add, Menu } from '@material-ui/icons';
+import { ChevronLeft, Add, Menu} from '@material-ui/icons';
 import { mainListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
@@ -207,7 +207,6 @@ export default function Dashboard() {
 	const [openDestination, setDestination] = React.useState(false);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const [submitState, setSubmitState] = React.useState(true);
-
 
 	React.useEffect(() => {
 		if (amount > 0 && moveType.length > 0 && moveType !== "transfer" && category.length > 0 && date.length > 0 && account.length > 0) {
