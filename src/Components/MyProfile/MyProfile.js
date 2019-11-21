@@ -137,7 +137,6 @@ const useStyles = makeStyles(theme => ({
         }
         axios.get("https://ifinanzas-api.herokuapp.com/users", config)
             .then(res => {
-                console.log(res.data)
                 setUserEmail(res.data.email)
                 setUserName(res.data.name)
                 setId(res.data._id)

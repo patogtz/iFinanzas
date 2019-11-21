@@ -10,7 +10,6 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import {
   BrowserRouter as Router,
   Route,
-  Redirect,
   Switch
 } from "react-router-dom";
 import AccountsContainer from './Components/Accounts/Container';

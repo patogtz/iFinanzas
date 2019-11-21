@@ -170,16 +170,6 @@ export default function Dashboard() {
 	};
 	const handleSubmitDialog = () => {
 		handleCloseDialog();
-		console.log({
-			type: moveType,
-			amount: Number(amount),
-			category: category,
-			date: date,
-			description: description,
-			comments: comment,
-			origin: account,
-			destination: accountTransfer
-		});
 
 		axios.post('http://ifinanzas-api.herokuapp.com/moves', {
 			type: moveType,

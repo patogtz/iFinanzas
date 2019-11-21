@@ -26,7 +26,6 @@ class TotalBalance extends React.Component {
         }
         axios.get(baseUrl.baseUrl + 'accounts', config)
             .then(res => {
-                console.log(res.data)
                 let sum = 0;
                 for (let i = 0; i < res.data.length; i++) {
                     sum = sum + res.data[i].balance;

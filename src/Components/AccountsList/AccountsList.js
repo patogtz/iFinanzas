@@ -25,7 +25,6 @@ class AccountsList extends React.Component {
         }
         axios.get(baseUrl.baseUrl + 'accounts', config)
             .then(res => {
-                console.log(res.data)
                 this.setState({ moves: res.data });
             }).catch(err => {
                 console.log(err);

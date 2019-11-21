@@ -1,4 +1,4 @@
-import React,{useState , useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -69,7 +69,6 @@ export default function EditProfile( params ) {
     setOpen(false);
   };
   const handleSave = () => {
-    console.log(name)
     let config = {
       headers: {
           'Authorization': sessionStorage.getItem('token'),

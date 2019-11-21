@@ -132,7 +132,6 @@ const useStyles = makeStyles(theme => ({
         getMoveInfo();
       }, []);
     const getMoveInfo = () => {
-        console.log(sessionStorage.getItem('token'))
         let config = {
             headers: {
                 'Authorization': sessionStorage.getItem('token'),
