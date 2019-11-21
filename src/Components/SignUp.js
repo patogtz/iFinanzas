@@ -140,9 +140,7 @@ export default function SignUp() {
         };
       })
       .catch(err => {
-        console.log("pene")
         setOpen2(true);
-
       })
   }
 
