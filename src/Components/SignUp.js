@@ -123,7 +123,7 @@ export default function SignUp() {
   //const onChange = event => setValues(event.target.value);
   const submitValue = () => {
     axios
-      .post('http://ifinanzas-api.herokuapp.com/users', {
+      .post('https://ifinanzas-api.herokuapp.com/users', {
         name: value,
         email: email,
         password: password
