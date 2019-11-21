@@ -69,7 +69,6 @@ export default function EditProfile( params ) {
     setOpen(false);
   };
   const handleSave = () => {
-    console.log(name)
     let config = {
       headers: {
           'Authorization': sessionStorage.getItem('token'),

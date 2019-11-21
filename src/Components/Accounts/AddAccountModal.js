@@ -42,11 +42,9 @@ class AddAccountModal extends React.Component {
     }
 
     handleChange(event) {
-        console.log({...event})
         let change = {};
         change[event.target.name] = event.target.value;
         this.setState(change);
-        console.log(change)
     }
     handleSaveNewAcc() {
         let account = {
