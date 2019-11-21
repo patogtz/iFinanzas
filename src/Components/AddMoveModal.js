@@ -44,11 +44,9 @@ class AddMoveModal extends React.Component {
     }
 
     handleChange(event) {
-        console.log({ ...event })
         let change = {};
         change[event.target.name] = event.target.value;
         this.setState(change);
-        console.log(change)
     }
     handleSaveNewMove() {
         let account = {
@@ -88,7 +86,6 @@ class AddMoveModal extends React.Component {
         }
         axios.get(baseUrl.baseUrl + 'accounts', config)
             .then(res => {
-                console.log(res.data)
                 this.setState({ moves: res.data });
             }).catch(err => {
                 console.log(err);

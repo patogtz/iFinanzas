@@ -122,19 +122,15 @@ class Login extends React.Component {
     }
 
     loginRequest() {
-        console.log(baseUrl)
         axios
             .post(baseUrl.baseUrl + 'users/login', {
                 email: this.state.email,
                 password: this.state.password
             })
             .then(res => {
-                console.log(res);
-
                 if (res.data.error) {
                     this.setState({ isInvalid: true })
                 } else {
-                    console.log(res);
                     sessionStorage.setItem(AUTHENTICATED, true);
                     sessionStorage.setItem('token', res.data.token);
                     this.setState({
