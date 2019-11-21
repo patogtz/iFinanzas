@@ -22,7 +22,7 @@ export default function DeleteProfileModal( params ) {
         }
     }
     axios
-    .delete('http://ifinanzas-api.herokuapp.com/users', config)
+    .delete('https://ifinanzas-api.herokuapp.com/users', config)
     .then(res => {
         params.handleDelete()
         setOpen(false);
