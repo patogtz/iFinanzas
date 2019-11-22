@@ -174,9 +174,6 @@ const useStyles = makeStyles(theme => ({
             <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
               iFinanzas
             </Typography>
-            <Typography component="h5" variant="h6" color="inherit" noWrap className={classes.subtitle}>
-              Bienvenido, Patricio
-            </Typography>
           </Toolbar>
         </AppBar>
         <Drawer
