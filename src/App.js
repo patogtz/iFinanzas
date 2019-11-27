@@ -25,7 +25,7 @@ function App() {
     <MuiThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <ProtectedRoute path="/myprofile" component={MyProfile} exact/>
+          <ProtectedRoute path="/myprofile" component={MyProfile} exact />
           <Route path="/signup" component={SignUp} exact />
           <Route path="/login"  component={Login} exact />
           <ProtectedRoute path="/home" component={Home} exact />
